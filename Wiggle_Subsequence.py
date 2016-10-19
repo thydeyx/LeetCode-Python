@@ -8,16 +8,14 @@ class Solution(object):
 		"""
 		n = len(nums)
 		ret = 0
-		dp = [[0,0] for x in range(n)]
-		print dp
+		dp = [[1,1] for x in range(n)]
 		for i in range(n):
 			for j in range(i):
 				if nums[i] - nums[j] > 0:
 					dp[i][0] = max(dp[j][1] + 1, dp[i][0])
-				elif nums[j] - nums[i] < 0:
+				elif nums[i] - nums[j] < 0:
 					dp[i][1] = max(dp[j][0] + 1, dp[i][1])
 
-			print dp[i][1], dp[i][0]
 			ret = max(ret, max(dp[i][0], dp[i][1]))
 
 		return ret
