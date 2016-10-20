@@ -3,6 +3,7 @@
 #include<limits.h>
 using namespace std;
 
+
 const int DOWN=1;
 const int RIGHT=0;
 
