@@ -3,6 +3,6 @@
 path=`pwd`
 log=$1
 
-git add $path
+git add --ignore-removal $path
 git commit -m $log
 git push
