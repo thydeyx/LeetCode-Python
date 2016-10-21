@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*- 
 
 import sys
-from Queue import Queue
+import Queue
 
 class Solution(object):
 
@@ -39,7 +39,7 @@ class Solution(object):
 
 
 	def findLadders(self, beginWord, endWord, wordlist):
-		q = Queue()
+		q = Queue.Queue()
 		self.ret = []
 		self.tmp = []
 		self.wordlist = wordlist
