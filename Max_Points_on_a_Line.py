@@ -2,7 +2,9 @@
 
 import sys
 
-
+"""
+主要分为两种情况，排列在x垂直的直线上，斜率相同时
+"""
 class Point(object):
 
 	def __init__(self, x = 0, y = 0):
