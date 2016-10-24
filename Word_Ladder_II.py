@@ -53,6 +53,7 @@ class Solution(object):
 		fromList[0][0] = 0
 		q.put((beginWord, fromList[0], 0))
 		while q.empty() == False:
+			n = len(wordlist)
 			now_word, state, num_word = q.get()
 			inQ[num_word] = 0
 			if num_word == n + 1:
@@ -76,11 +77,13 @@ class Solution(object):
 						fromList[i + 1][1] = [num_word]
 						if inQ[i + 1] == 0:
 							q.put((wordlist[i], fromList[i + 1], i + 1))
+							wordlist.remove(wordlist[i])
 							inQ[i + 1] = 1
 					elif state[0] + 1 == fromList[i + 1][0]:
 						fromList[i + 1][1].append(num_word)
 						if inQ[n + 1] == 0:
 							q.put((endWord, fromList[n + 1], i + 1))
+							wordlist.remove(wordlist[i])
 							inQ[n + 1] = 1
 
 		if fromList[n + 1][0] != sys.maxint:
