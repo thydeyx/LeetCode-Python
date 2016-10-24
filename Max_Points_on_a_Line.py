@@ -42,7 +42,7 @@ class Solution(object):
 			if maxK > ret:
 				ret = maxK
 			if now_x + 1 > ret:
-				ret = now_x
+				ret = now_x + 1
 
 		return ret
 
