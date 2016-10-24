@@ -6,14 +6,14 @@ class Solution(object):
 	def findKthNumber(self, n, k):
 		ret = 1
 		k -= 1
-		while k >= 0:
+		while k > 0:
 			count = 0
 			interval = [ret, ret + 1]
 			while interval[0] <= n:
 				count += min(interval[1], n + 1) - interval[0]
 				interval = [10 * interval[0], 10 * interval[1]]
 		
-			if count >= k:
+			if count <= k:
 				k -= count
 				ret = ret + 1
 			else:
