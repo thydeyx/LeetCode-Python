@@ -53,5 +53,6 @@ if __name__ == "__main__":
 	point2 = Point(0, 0)
 	point3 = Point(2, 2)
 	point4 = Point(1, 2)
-	points = [point1, point2, point3, point4]
+#points = [point1, point2, point3, point4]
+	points = [point2]
 	print s.maxPoints(points)
