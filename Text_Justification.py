@@ -26,13 +26,16 @@ class Solution(object):
 					space = (n - sentence_l) / (word_c - 1)
 					space_surplus = (n - sentence_l) % (word_c - 1)
 				s = ""
-				for s_word in sentence_list:
-					if word_c > 1:
-						s = s + s_word + " " * (space + (lambda x:1 if x > 0 else 0)(space_surplus))
-						space_surplus -= 1
-					else:
-						s = s + s_word
-					word_c -= 1
+				if word_c == 1:
+					s = s + sentence_list[0] + " " * (n - len(sentence_list[0]))
+				else:
+					for s_word in sentence_list:
+						if word_c > 1:
+							s = s + s_word + " " * (space + (lambda x:1 if x > 0 else 0)(space_surplus))
+							space_surplus -= 1
+						else:
+							s = s + s_word
+						word_c -= 1
 
 				sentence_l = len(word)
 				ret_list.append(s)
