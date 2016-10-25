@@ -46,11 +46,12 @@ class Solution(object):
 			space = (n - sentence_l) / (word_c - 1)
 			space_surplus = (n - sentence_l) % (word_c - 1)
 		s = ""
+		q = word_c - 1
 		for s_word in sentence_list:
 			if word_c > 1:
 				s = s + s_word + " "
 			else:
-				s = s + s_word + " " * (n - sentence_l - word_c)
+				s = s + s_word + " " * (n - sentence_l - q)
 			word_c -= 1
 
 		ret_list.append(s)
