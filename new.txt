@@ -1,155 +1,42 @@
-#include <algorithm>
-#include <time.h>
-#include <iostream>
-using namespace std;
-struct TreeNode {
-    TreeNode *left;
-    TreeNode *right;
-    int value;
-    TreeNode(int v) {value = v;}
-};
-class Solution {
-public:
-    int recurseTree(TreeNode *root) {
-        if (root == NULL)
-            return 0;
-        int tdepth = depth(root);
-        return (int)pow((double)2,tdepth-1) - 1 + recuseNode(root,tdepth);
+class Solution {<br>public:
+//postorder sequece and checkout if it can be construct BST
+    bool validBST(vector<int> &postorder) {
+        return validBST_recurse(postorder, 0, postorder.size() - 1, INT_MIN, INT_MAX);
     }
-    //递归统计完全二叉树的最后一层节点个数
-    int recuseNode(TreeNode *root,int depth) {
-        if(root == NULL)
-            return 0;
-        //最后一层才进行统计，depth == 1
-        if(root->left == NULL && root->right == NULL && depth == 1)
-            return 1;
-        return recuseNode(root->left,depth-1)+recuseNode(root->right,depth-1);
+    bool validBST_recurse(vector<int> &postorder, int start, int end, int min, int max) {
+        if(end < start) {
+            return true;
+        }
+        if(end == start) {
+            return postorder[end] > min && postorder[end] < max;
+        }
+        int partition = binaryPartition(postorder,start,end);
+        bool left = validBST_recurse(postorder, start, partition, min, postorder[end]);
+        bool right = validBST_recurse(postorder, partition+1, end-1, postorder[end], max);
+        return left&&right;
     }
-    int dc(TreeNode *root) {
-        if(root == NULL)
-            return 0;
-        int treedepth = depth(root);
-        if(treedepth == 1)
-            return 1;
-        else
-            return (int)pow((double)2,treedepth-1) - 1 + devide_conquer(root);
+    //partition to two part, postorder[p] < postorder[end] && portorder[p+1] > postorder[end]
+    int binaryPartition(vector<int> &postorder, int start, int end) {
+        int target = postorder[end];
+        int mid;
+        end = end - 1;
+        if(start == end)
+            return start;
+        while(start < end) {
+            mid = (start + end)/2;
+            if(postorder[mid] < target && (mid == end || postorder[mid+1] > target)) {
+                return mid;
+            }
+            else if(postorder[mid] > target && (mid == start || postorder[mid-1] < target)) {
+                return mid-1;
+            }
+            else if(postorder[mid] < target) {
+                start = mid + 1;
+            }
+            else {
+                end = mid - 1;
+            }
+        }
+        return -1;
     }
-    //分治统计完全二叉树的最后一层节点个数
-    int devide_conquer(TreeNode *root) {
-        int tdepth = depth(root);
-        //如果只有两层，直接可以得到最后一层节点个数
-        if(tdepth == 2) {
-            if(root->right == NULL)
-                return 1;
-            return 2;
-        }
-        int leftdepth = depth(root->left);
-        int rightdepth = depth(root->right);
-        //right side
-        if (leftdepth == rightdepth) {
-            return (int)pow((double)2,tdepth-1-1) + devide_conquer(root->right);
-        }
-        //left side
-        else if(leftdepth > rightdepth) {
-            return devide_conquer(root->left);
-        }
-        else {
-            //error
-        }
-    }
-    //计算深度
-    int depth(TreeNode *root) {
-        int depth = 0;
-        TreeNode *cur = root;
-        while(cur != NULL) {
-            cur = cur->left;
-            depth++;
-        }
-        return depth;
-    }
-};
-int main(int argc,char **argv) {
-    TreeNode *_1root = new TreeNode(1);
-    _1root->left = NULL;
-    _1root->right = NULL;
- 
-    TreeNode *_2root1 = new TreeNode(1);
-    TreeNode *_2root2 = new TreeNode(2);
-    TreeNode *_2root3 = new TreeNode(3);
-    TreeNode *_2root4 = new TreeNode(4);
-    TreeNode *_2root5 = new TreeNode(5);
-    TreeNode *_2root6 = new TreeNode(6);
-    TreeNode *_2root7 = new TreeNode(7);
-    TreeNode *_2root8 = new TreeNode(8);
-    TreeNode *_2root9 = new TreeNode(9);
-    TreeNode *_2root10 = new TreeNode(10);
-    TreeNode *_2root11 = new TreeNode(11);
-    TreeNode *_2root12 = new TreeNode(12);
- 
-    _2root1->left = _2root2;
-    _2root1->right = _2root3;
- 
-    _2root2->left = _2root4;
-    _2root2->right = _2root5;
- 
-    _2root3->left = _2root6;
-    _2root3->right = _2root7;
- 
-    _2root4->left = _2root8;
-    _2root4->right = _2root9;
- 
-    _2root5->left = _2root10;
-    _2root5->right = _2root11;
- 
-    _2root6->left = _2root12;
-    _2root6->right = NULL;
- 
-    _2root7->left = NULL;
-    _2root7->right = NULL;
- 
-    _2root8->left = NULL;
-    _2root8->right = NULL;
- 
-    _2root9->left = NULL;
-    _2root9->right = NULL;
- 
-    _2root10->left = NULL;
-    _2root10->right = NULL;
- 
-    _2root11->left = NULL;
-    _2root11->right = NULL;
- 
-    _2root12->left = NULL;
-    _2root12->right = NULL;
- 
-    Solution s;
-    int s11,s12,s21,s22;
- 
-    clock_t start,finish;
-    start = clock();
-    for(int i = 0;i < 1000000;i++)
-        s11 = s.dc(_1root);
-    finish = clock();
-    double t11 = double(finish - start);
-    start = clock();
-    for(int i = 0;i < 1000000;i++)
-        s12 = s.recurseTree(_1root);
-    finish = clock();
-    double t12 = double(finish - start);
- 
-    start = clock();
-    for(int i = 0;i < 1000000;i++)
-        s21 = s.dc(_2root1);
-    finish = clock();
-    double t21 = double(finish - start);
-    start = clock();
-    for(int i = 0;i < 1000000;i++)
-        s22 = s.recurseTree(_2root1);
-    finish = clock();
-    double t22 = double(finish - start);
- 
-    cout<<"s11:"<<s11<<"time:"<<t11<<"ms"<<endl;
-    cout<<"s12:"<<s12<<"time:"<<t12<<"ms"<<endl;
-    cout<<"s21:"<<s21<<"time:"<<t21<<"ms"<<endl;
-    cout<<"s22:"<<s22<<"time:"<<t22<<"ms"<<endl;
 }
