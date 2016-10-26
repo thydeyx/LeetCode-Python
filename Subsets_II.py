@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
-
-
+"""
+注意判重方法 通过排序然后跳过重复元素 加快效率
+"""
 import sys
+
 
 class Solution(object):
 	def dfs(self, nums, cur, tmp):
