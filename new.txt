@@ -1,0 +1,20 @@
+class Solution {<br>public:
+//i<j max(a[j]-a[i])
+    int arrayMaxGap(vector<int> &array) {
+        if(array.size() == 0 || array.size() == 1)
+            return -1;
+        if(array.size() == 2) {
+            return array[1] - array[0];
+        }
+        int maxres,premin;
+        maxres = array[1] - array[0];
+        premin = array[0];
+        for(int i = 1;i < array.size();i++) {
+            if (array[i] - premin > maxres)
+                maxres = array[i] - premin;
+            if (array[i] < premin)
+                premin = array[i];
+        }
+        return maxres;
+    }
+}
