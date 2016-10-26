@@ -33,7 +33,10 @@ class Solution(object):
 				l = mid + 1
 			else:
 				r = mid - 1
-		retL = l
+		if l < n and nums[l + 1] == target:
+			retL = l + 1
+		else:
+			retL = l
 			
 		if nums[retR] != target:
 			return [-1, -1]
@@ -42,7 +45,7 @@ class Solution(object):
 
 if __name__ == "__main__":
 	s = Solution()
-	nums = [5, 7, 7, 8, 8, 10]
-	target = 11
+	nums = [2, 2]
+	target = 2
 	print s.searchRange(nums, target)
 	
