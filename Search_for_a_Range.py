@@ -5,8 +5,9 @@
 # Create Date : 16-10-26 20:27:38
 #   File Name : Search_for_a_Range.py
 #        Desc :
-
-
+"""
+两边二分查找 分别找到头和尾
+"""
 class Solution(object):
 	def searchRange(self, nums, target):
 		l = 0
