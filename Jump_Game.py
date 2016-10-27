@@ -8,15 +8,13 @@
 class Solution(object):
 	def canJump(self, nums):
 		n = len(nums)
-		dp = [ False for x in range(n)]
-		dp[0] = True
-		for i in range(n):
-			if dp[i] == True:
-				for j in range(nums[i]):
-					if i + j + 1 >= n:
-						break
-					dp[i +j + 1] = True
-		return dp[n - 1]
+		i = 0
+		reach = 0
+		while i <= reach and i < n:
+			reach = max(i + nums[i], reach)
+			i += 1
+		return i == n
+		
 
 
 if __name__ == "__main__":
