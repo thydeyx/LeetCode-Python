@@ -8,6 +8,7 @@
 """
 查找l，r时可通过二分查找改进效率
 """
+
 class Solution(object):
 	def twoSum(self, numbers, target):
 		r = len(numbers) - 1
