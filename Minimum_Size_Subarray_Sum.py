@@ -5,7 +5,9 @@
 # Create Date : 16-10-27 09:15:38
 #   File Name : Minimum_Size_Subarray_Sum.py
 #        Desc :
-
+"""
+利用前N个数的和
+"""
 class Solution(object):
 	def minSubArrayLen(self, s, nums):
 		n = len(nums)
