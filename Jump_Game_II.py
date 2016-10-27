@@ -5,8 +5,9 @@
 # Create Date : 16-10-27 11:32:10
 #   File Name : Jump_Game_II.py
 #        Desc :
-
-
+"""
+设置两个边界，如果i遍历超过了当前的边界，则步数需要增加，下个边界通过当前边界内能到达的点去扩充，这样最后求出的就是最小步数
+"""
 class Solution(object):
 	def jump(self, nums):
 		n = len(nums)
