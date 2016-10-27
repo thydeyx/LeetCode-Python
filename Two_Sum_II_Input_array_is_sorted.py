@@ -5,7 +5,9 @@
 # Create Date : 16-10-27 09:04:15
 #   File Name : Two_Sum_II_Input_array_is_sorted.py
 #        Desc :
-
+"""
+查找l，r时可通过二分查找改进效率
+"""
 class Solution(object):
 	def twoSum(self, numbers, target):
 		r = len(numbers) - 1
@@ -16,7 +18,7 @@ class Solution(object):
 			elif numbers[l] + numbers[r] > target:
 				r -= 1
 			else:
-				return [l, r]
+				return [l+1, r+1]
 
 
 if __name__ == "__main__":
