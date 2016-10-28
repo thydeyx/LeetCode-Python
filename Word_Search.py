@@ -5,7 +5,6 @@
 # Create Date : 16-10-28 16:06:01
 #   File Name : Word_Search.py
 #        Desc :
-import copy
 
 class Solution(object):
 
@@ -19,7 +18,6 @@ class Solution(object):
 		
 		board[x][y] = chr((ord(board[x][y]) ^ 255))
 		ret = self.dfs(board, x + 1, y, word, i + 1) or self.dfs(board, x -1 ,y, word, i + 1) or self.dfs(board, x, y + 1, word, i + 1) or self.dfs(board, x, y - 1, word, i + 1)
-
 		board[x][y] = chr((ord(board[x][y]) ^ 255))
 		
 		return ret
