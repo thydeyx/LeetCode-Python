@@ -19,6 +19,7 @@ class Solution(object):
 		
 		board[x][y] = chr((ord(board[x][y]) ^ 255))
 		ret = self.dfs(board, x + 1, y, word, i + 1) or self.dfs(board, x -1 ,y, word, i + 1) or self.dfs(board, x, y + 1, word, i + 1) or self.dfs(board, x, y - 1, word, i + 1)
+
 		board[x][y] = chr((ord(board[x][y]) ^ 255))
 		
 		return ret
