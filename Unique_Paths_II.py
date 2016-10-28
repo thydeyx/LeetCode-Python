@@ -5,6 +5,9 @@
 # Create Date : 16-10-28 15:28:11
 #   File Name : Unique_Paths_II.py
 #        Desc :
+"""
+动态规划算法
+"""
 class Solution(object):
 	def uniquePathsWithObstacles(self, obstacleGrid):
 		n = len(obstacleGrid)
