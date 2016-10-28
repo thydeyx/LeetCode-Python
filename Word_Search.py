@@ -11,22 +11,21 @@ class Solution(object):
 
 	def dfs(self, board, x, y, word, i):
 
-		if x < 0 or y < 0 or x >= self.n or y >= self.m or ord(board[x][y]) != ord(word[i]):
-			return False
-		
 		if i == self.w_l:
 			return True
 
+		if x < 0 or y < 0 or x >= self.n or y >= self.m or ord(board[x][y]) != ord(word[i]):
+			return False
+		
 		board[x][y] = chr((ord(board[x][y]) ^ 255))
-		if self.dfs(board, x + 1, y, word, i + 1) or self.dfs(board, x -1 ,y, word, i + 1) or self.dfs(board, x, y + 1, word, i + 1) or self.dfs(board, x, y - 1, word, i + 1):
-			return True
+		ret = self.dfs(board, x + 1, y, word, i + 1) or self.dfs(board, x -1 ,y, word, i + 1) or self.dfs(board, x, y + 1, word, i + 1) or self.dfs(board, x, y - 1, word, i + 1)
 		board[x][y] = chr((ord(board[x][y]) ^ 255))
 		
-		return False
+		return ret
 
 
 	def exist(self, board, word):
-		self.w_l = len(word) - 1
+		self.w_l = len(word)
 		if self.w_l < 0:
 			return True
 		self.n = len(board)
@@ -38,7 +37,7 @@ class Solution(object):
 
 		for i in range(self.n):
 			for j in range(self.m):
-				if self.dfs(copy.deepcopy(board), i, j, word, 0) == True:
+				if self.dfs(board, i, j, word, 0) == True:
 					return True
 
 		return False
