@@ -8,7 +8,12 @@
 class Solution(object):
 	def uniquePathsWithObstacles(self, obstacleGrid):
 		n = len(obstacleGrid)
+		if n == 0:
+			return 0
 		m = len(obstacleGrid[0])
+		if m == 0:
+			return 0
+
 		dp = [[0 for i in range(m)] for j in range(n)]
 		print dp
 		dp[0][0] = 1
