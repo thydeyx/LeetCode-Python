@@ -16,7 +16,8 @@ class Solution(object):
 
 		dp = [[0 for i in range(m)] for j in range(n)]
 		print dp
-		dp[0][0] = 1
+		if obstacleGri[0][0] != 1:
+			dp[0][0] = 1
 		for i in range(n):
 			for j in range(m):
 				if obstacleGrid[i][j] != 1:
