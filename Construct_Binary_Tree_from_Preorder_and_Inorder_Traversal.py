@@ -15,46 +15,6 @@ class TreeNode(object):
 
 class Solution(object):
 	
-	def dfsBulid(self, root, word):
-		if root == None:
-			return False
-#print root.val
-
-		if type(root.val) != list:
-			if root.val == word:
-				root.left = None
-				root.right = None
-				return True	
-			if self.dfsBulid(root.left, word) == True:
-				return True
-			if self.dfsBulid(root.right, word) == True:
-				return True
-			return False
-
-		if word in root.val:
-			i = root.val.index(word)
-			leftList = root.val[:i]
-			rightList = root.val[i + 1:]
-			left = None
-			right = None
-			if len(leftList) == 1:
-				leftList = leftList[0]
-
-			if len(rightList) == 1:
-				rightList = rightList[0]
-
-			if (type(leftList) == list and len(leftList) != 0) or (type(leftList) != list):
-				left = TreeNode(leftList)
-
-			if (type(rightList) == list and len(rightList) != 0) or (type(rightList) != list):
-				right = TreeNode(rightList)
-
-			root.val = root.val[i]
-			root.left = left
-			root.right = right
-			return True
-
-		return False
 
 
 	def dfs(self, root):
@@ -68,15 +28,55 @@ class Solution(object):
 
 
 	def buildTree(self, preorder, inorder):
+
 		if len(preorder) == 0 or len(inorder) == 0:
 			return []
+
+		stack = []
+		top = -1
 		root = TreeNode(inorder)
-		for word in preorder:
-			self.dfsBulid(root, word)
-#			print "######"
-		#self.dfs(root)
+		stack.append(root)
+		top += 1
+		i = 0
+		n = len(inorder)
+
+		while top >= 0:
+			word = preorder[i]
+			i += 1
+			node = stack.pop()
+			top -= 1
+			if len(node.val) == 1:
+				node.val = node.val[0]
+				node.left = None
+				node.right = None
+			else:
+				k = node.val.index(word)
+				leftList = node.val[:k]
+				rightList = node.val[k + 1:]
+				if len(leftList) == 0:
+					left = None
+				else:
+					left = TreeNode(leftList) 
+
+				if len(rightList) == 0:
+					right = None
+				else:
+					right = TreeNode(rightList)
+				
+				node.left = left
+				node.right = right
+
+				if right != None:
+					stack.append(right)
+					top += 1
+
+				if left != None:
+					stack.append(left)
+					top += 1
+
+		root.val = preorder[0]
+		self.dfs(root)
 		return root
-						
 
 
 if __name__ == "__main__":
