@@ -41,10 +41,10 @@ class Solution(object):
 			if len(rightList) == 1:
 				rightList = rightList[0]
 
-			if type(leftList) == list and len(leftList) != 0:
+			if (type(leftList) == list and len(leftList) != 0) or (type(leftList) != list):
 				left = TreeNode(leftList)
 
-			if type(rightList) == list and len(rightList) != 0:
+			if (type(rightList) == list and len(rightList) != 0) or (type(rightList) != list):
 				right = TreeNode(rightList)
 
 			root.val = root.val[i]
