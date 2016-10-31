@@ -66,6 +66,8 @@ class Solution(object):
 
 
 	def buildTree(self, preorder, inorder):
+		if len(preorder) == 0 or len(inorder) == 0:
+			return []
 		root = TreeNode(inorder)
 		for word in preorder:
 			self.dfsBulid(root, word)
