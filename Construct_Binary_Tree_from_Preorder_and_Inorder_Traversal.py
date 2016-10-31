@@ -18,6 +18,7 @@ class Solution(object):
 	def dfsBulid(self, root, word):
 		if root == None:
 			return False
+#print root.val
 
 		if type(root.val) != list:
 			if root.val == word:
@@ -28,6 +29,7 @@ class Solution(object):
 				return True
 			if self.dfsBulid(root.right, word) == True:
 				return True
+			return False
 
 		if word in root.val:
 			i = root.val.index(word)
@@ -71,6 +73,7 @@ class Solution(object):
 		root = TreeNode(inorder)
 		for word in preorder:
 			self.dfsBulid(root, word)
+#			print "######"
 		#self.dfs(root)
 		return root
 						
@@ -80,7 +83,7 @@ if __name__ == "__main__":
 	s = Solution()
 	preorder = list("ABDEFC")
 	inorder = list("DBEFAC")
-	preorder = [1, 2]
-	inorder = [2, 1]
+	preorder = [1, 2, 3]
+	inorder = [2, 1, 3]
 	print s.buildTree(preorder, inorder)
 	
