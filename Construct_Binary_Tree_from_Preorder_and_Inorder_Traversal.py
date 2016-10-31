@@ -20,14 +20,14 @@ class Solution(object):
 			return False
 
 		if type(root.val) != list:
+			if root.val == word:
+				root.left = None
+				root.right = None
+				return True	
 			if self.dfsBulid(root.left, word) == True:
 				return True
 			if self.dfsBulid(root.right, word) == True:
 				return True
-		elif  root.val == word:
-			root.left = None
-			root.right = None
-			return True
 
 		if word in root.val:
 			i = root.val.index(word)
