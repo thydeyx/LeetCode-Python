@@ -71,7 +71,6 @@ class Solution(object):
 		root = TreeNode(inorder)
 		for word in preorder:
 			self.dfsBulid(root, word)
-			print "#######"
 		#self.dfs(root)
 		return root
 						
@@ -81,5 +80,7 @@ if __name__ == "__main__":
 	s = Solution()
 	preorder = list("ABDEFC")
 	inorder = list("DBEFAC")
+	preorder = [1, 2]
+	inorder = [2, 1]
 	print s.buildTree(preorder, inorder)
 	
