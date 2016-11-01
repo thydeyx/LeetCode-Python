@@ -33,8 +33,10 @@ class Solution(object):
 		#print sorted(intervals, key=operator.itemgetter(1), reverse=True)
 		intervals = sorted(intervals, cmp=self.cmp_me)
 		n = len(intervals)
-		pre = intervals[0]
 		ret = []
+		if n == 0:
+			return ret
+		pre = intervals[0]
 		for i in range(1, n):
 			if intervals[i].start <= pre.end:
 				pre.end = intervals[i].end
