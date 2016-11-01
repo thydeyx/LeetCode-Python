@@ -15,8 +15,6 @@ class TreeNode(object):
 
 class Solution(object):
 	
-
-
 	def dfs(self, root):
 		if root == None:
 			return
