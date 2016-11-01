@@ -18,7 +18,6 @@ class RandomizedSet(object):
 		if self.hashtable.has_key(val) == True:
 			return False
 		else:
-			print self.n
 			self.queue.append(val)
 			self.hashtable[val] = self.n
 			self.n += 1
@@ -27,9 +26,9 @@ class RandomizedSet(object):
 	def remove(self, val):
 		if self.hashtable.has_key(val) == True:
 			position = self.hashtable.get(val, 0)
-			print self.n, position
 			del self.hashtable[val]
 			self.queue[self.n - 1], self.queue[position] = self.queue[position], self.queue[self.n - 1]
+			self.hashtable[self.queue[position]] = position
 			self.n -= 1
 			self.queue.pop()
 			return True
