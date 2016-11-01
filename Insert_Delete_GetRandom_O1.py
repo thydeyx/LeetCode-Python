@@ -35,6 +35,8 @@ class RandomizedSet(object):
 		
 
 	def getRandom(self):
+		if self.n == 0:
+			return None
 		i = random.randint(0, self.n - 1)
 		ret = self.queue[i]
 		return ret
@@ -42,6 +44,7 @@ class RandomizedSet(object):
 
 if __name__ == "__main__":
 	randomSet = RandomizedSet()
+	print randomSet.getRandom();
 	print randomSet.insert(1);
 	print randomSet.remove(2);
 	print randomSet.insert(2);
