@@ -39,7 +39,7 @@ class Solution(object):
 		pre = intervals[0]
 		for i in range(1, n):
 			if intervals[i].start <= pre.end:
-				pre.end = intervals[i].end
+				pre.end = max(pre.end, intervals[i].end)
 			else:
 				ret.append(pre)
 				pre = intervals[i]
