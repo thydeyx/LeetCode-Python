@@ -46,7 +46,7 @@ class RandomizedSet(object):
 	def getRandom(self):
 		if self.n == 0:
 			return None
-		i = random.randint(0, self.n - 1)
+		i = int(random.random() * self.n)
 		ret = self.queue[i]
 		return ret
 
