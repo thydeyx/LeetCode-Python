@@ -26,6 +26,7 @@ class RandomizedSet(object):
 	def remove(self, val):
 		if self.hashtable.has_key(val) == True:
 			position = self.hashtable.get(val, 0)
+			del self.hashtable[val]
 			self.queue[self.n - 1], self.queue[position] = self.queue[position], self.queue[self.n - 1]
 			self.n -= 1
 			self.queue.pop()
