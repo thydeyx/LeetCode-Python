@@ -36,12 +36,12 @@ class Solution(object):
 		pre = intervals[0]
 		ret = []
 		for i in range(1, n):
-			if intervals[i][0] <= pre[1]:
-				pre[1] = intervals[i][1]
+			if intervals[i].start <= pre.end:
+				pre.end = intervals[i].end
 			else:
-				ret.append(pre[:])
+				ret.append(pre)
 				pre = intervals[i]
-		ret.append(pre[:])
+		ret.append(pre)
 		return ret
 
 
@@ -53,4 +53,6 @@ if __name__ == "__main__":
 		a = Interval(i[0], i[1])
 		tmp.append(a)
 	intervals = tmp
-	print s.merge(intervals)
+	r = s.merge(intervals)
+	for i in r:
+		print i.start, i.end
