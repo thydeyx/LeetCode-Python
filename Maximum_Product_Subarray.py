@@ -5,6 +5,9 @@
 # Create Date : 16-11-01 15:53:47
 #   File Name : Maximum_Product_Subarray.py
 #        Desc :
+"""
+乘法最大的子序列只可能和负数有关，一定越乘越大
+"""
 class Solution(object):
 	def maxProduct(self, nums):
 		n = len(nums)
