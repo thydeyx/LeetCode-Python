@@ -7,6 +7,9 @@
 #        Desc :
 import sys
 import operator
+"""
+线段树题目，但目前使用了排序解决
+"""
 class Interval(object):
     def __init__(self, s=0, e=0):
         self.start = s
