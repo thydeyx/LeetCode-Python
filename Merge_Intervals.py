@@ -7,18 +7,23 @@
 #        Desc :
 import sys
 import operator
+class Interval(object):
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
+
 
 class Solution(object):
 
 	def cmp_me(self, x, y):
-		if x[0] < y[0]:
+		if x.start < y.start:
 			return -1
-		elif x[0] > y[0]:
+		elif x.start > y.start:
 			return 1
 		else:
-			if x[1] < y[1]:
+			if x.end < y.end:
 				return -1
-			elif x[1] > y[1]:
+			elif x.end > y.end:
 				return 1
 			else:
 				return 0
@@ -39,7 +44,13 @@ class Solution(object):
 		ret.append(pre[:])
 		return ret
 
+
 if __name__ == "__main__":
 	s = Solution()
 	intervals = [[1,3],[2,6],[2,5],[8,10],[15,18]]
+	tmp = []
+	for i in intervals:
+		a = Interval(i[0], i[1])
+		tmp.append(a)
+	intervals = tmp
 	print s.merge(intervals)
