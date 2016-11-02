@@ -12,9 +12,11 @@ class RandomizedSet(object):
 		self.hashtable = {}
 		self.queue = []
 		self.n = 0
+		self.total = 0
 
 
 	def insert(self, val):
+		self.total += 1
 		position, num = self.hashtable.get(val, (-1, -1))
 		if position == -1:
 			self.queue.append(val)
@@ -29,6 +31,7 @@ class RandomizedSet(object):
 
 	def remove(self, val):
 		if self.hashtable.has_key(val) == True:
+			self.total -= 1
 			position, num = self.hashtable.get(val, (-1, -1))
 			if position == self.n - 1:
 				if num == 1:
@@ -59,7 +62,7 @@ class RandomizedSet(object):
 	def getRandom(self):
 		if self.n == 0:
 			return None
-		i = int(random.random() * self.n)
+		i = int(random.random() * self.total) % self.n
 		ret = self.queue[i]
 		return ret
 
