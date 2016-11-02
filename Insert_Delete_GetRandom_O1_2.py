@@ -12,18 +12,20 @@ class RandomizedSet(object):
 		self.hashtable = {}
 		self.queue = []
 		self.n = 0
-		self.total = 0
 
 
 	def insert(self, val):
-		self.total += 1
-		position, num = self.hashtable.get(val, (-1, -1))
+		position, num = self.hashtable.get(val, ([], -1))
 		if position == -1:
 			self.queue.append(val)
-			self.hashtable[val] = (self.n, 1)
+			position.append(self.n)
+			self.hashtable[val] = (position, 1)
 			self.n += 1
 		else:
+			self.queue.append(val)
+			position.append(self.n)
 			self.hashtable[val] = (position, num + 1)
+			self.n += 1
 			return False
 				
 		return True
@@ -31,9 +33,8 @@ class RandomizedSet(object):
 
 	def remove(self, val):
 		if self.hashtable.has_key(val) == True:
-			self.total -= 1
-			position, num = self.hashtable.get(val, (-1, -1))
-			if position == self.n - 1:
+			position, num = self.hashtable.get(val, ([], -1))
+			if position[-1] == self.n - 1:
 				if num == 1:
 					self.n -= 1
 					del self.hashtable[val]
@@ -41,17 +42,25 @@ class RandomizedSet(object):
 					return True
 				else:
 					num -= 1
+					position.pop()
 					self.hashtable[val] = (position, num)
 					return True
 			if num == 1:
 				del self.hashtable[val]
-				tmp, num = self.hashtable.get(self.queue[self.n - 1], (-1, -1))
-				self.queue[self.n - 1], self.queue[position] = self.queue[position], self.queue[self.n - 1]
-				self.hashtable[self.queue[position]] = (position, num)
+				tmp, num = self.hashtable.get(self.queue[self.n - 1], ([], -1))
+				self.queue[self.n - 1], self.queue[position[-1]] = self.queue[position[-1]], self.queue[self.n - 1]
+				tmp[-1] = position[-1]
+				self.hashtable[self.queue[position[-1]]] = (tmp, num)
 				self.n -= 1
 				self.queue.pop()
 				return True
 			else:
+				tmp, num = self.hashtable.get(self.queue[self.n - 1], ([], -1))
+				self.queue[self.n - 1], self.queue[position[-1]] = self.queue[position[-1]], self.queue[self.n - 1]
+				tmp[-1] = position[-1]
+				self.hashtable[self.queue[position[-1]]] = (tmp, num)
+				self.n -= 1
+				self.queue.pop()
 				num -= 1
 				self.hashtable[val] = (position, num)
 				return True
@@ -62,7 +71,7 @@ class RandomizedSet(object):
 	def getRandom(self):
 		if self.n == 0:
 			return None
-		i = int(random.random() * self.total) % self.n
+		i = int(random.random() * self.n)
 		ret = self.queue[i]
 		return ret
 
