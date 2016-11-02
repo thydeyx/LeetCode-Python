@@ -22,6 +22,7 @@ class RandomizedSet(object):
 			self.n += 1
 		else:
 			self.hashtable[val] = (position, num + 1)
+			return False
 				
 		return True
 
