@@ -15,19 +15,15 @@ class RandomizedSet(object):
 
 
 	def insert(self, val):
-		if self.hashtable.has_key(val) == True:
-			return False
-		else:
+		position, num = self.hashtable.get(val, (-1, -1))
+		if position == -1:
 			self.queue.append(val)
-			position, num = self.hashtable.get(val, (-1, -1))
-			if position == -1:
-				self.queue.append(val)
-				self.hashtable[val] = (self.n, 1)
-				self.n += 1
-			else:
-				self.hashtable[val] = (position, num + 1)
+			self.hashtable[val] = (self.n, 1)
+			self.n += 1
+		else:
+			self.hashtable[val] = (position, num + 1)
 				
-			return True
+		return True
 
 
 	def remove(self, val):
