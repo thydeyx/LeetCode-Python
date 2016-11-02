@@ -16,7 +16,7 @@ class RandomizedSet(object):
 
 	def insert(self, val):
 		position, num = self.hashtable.get(val, ([], -1))
-		if position == -1:
+		if num == -1:
 			self.queue.append(val)
 			position.append(self.n)
 			self.hashtable[val] = (position, 1)
@@ -42,6 +42,8 @@ class RandomizedSet(object):
 					return True
 				else:
 					num -= 1
+					self.n -= 1
+					self.queue.pop()
 					position.pop()
 					self.hashtable[val] = (position, num)
 					return True
