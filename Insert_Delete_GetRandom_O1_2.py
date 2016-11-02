@@ -42,8 +42,9 @@ class RandomizedSet(object):
 					return True
 			if num == 1:
 				del self.hashtable[val]
+				tmp, num = self.hashtable.get(self.queue[self.n - 1], (-1, -1))
 				self.queue[self.n - 1], self.queue[position] = self.queue[position], self.queue[self.n - 1]
-				self.hashtable[self.queue[position]] = position
+				self.hashtable[self.queue[position]] = (position, num)
 				self.n -= 1
 				self.queue.pop()
 				return True
