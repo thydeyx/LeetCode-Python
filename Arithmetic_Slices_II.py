@@ -3,9 +3,14 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-14 02:41:51 PM
-# Last modified : 2016-11-14 02:46:10 PM
+# Last modified : 2016-11-14 03:22:17 PM
 #     File Name : Arithmetic_Slices_II.py
 #          Desc :
+"""
+dp[i][dist] += (dp[j][dist] + 1)
+前i个数字，距离差为dist的序列和，ret增加，原因是对于一个子序列长度为N的等差数列，
+共有N-2个
+"""
 class Solution(object):
 	def numberOfArithmeticSlices(self, A):
 		ret = 0
