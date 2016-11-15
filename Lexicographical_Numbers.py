@@ -3,9 +3,12 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-15 02:37:43 PM
-# Last modified : 2016-11-15 02:47:58 PM
+# Last modified : 2016-11-15 02:50:29 PM
 #     File Name : Lexicographical_Numbers.py
 #          Desc :
+"""
+先序遍历
+"""
 class Solution(object):
 
 	def __init__(self):
