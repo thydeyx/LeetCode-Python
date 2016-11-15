@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-15 02:37:43 PM
-# Last modified : 2016-11-15 02:43:55 PM
+# Last modified : 2016-11-15 02:47:58 PM
 #     File Name : Lexicographical_Numbers.py
 #          Desc :
 class Solution(object):
@@ -18,6 +18,8 @@ class Solution(object):
 
 		self.ret.append(cur)
 		for i in range(10):
+			if cur * 10 + i > self.n:
+				return
 			self.dfs(cur * 10 + i)
 
 		return
@@ -34,5 +36,5 @@ class Solution(object):
 
 if __name__ == "__main__":
 	s = Solution()
-	n = 25
+	n = 14959
 	print s.lexicalOrder(n)
