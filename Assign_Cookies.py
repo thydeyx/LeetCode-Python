@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-17 01:48:52 PM
-# Last modified : 2016-11-17 01:55:23 PM
+# Last modified : 2016-11-17 02:22:37 PM
 #     File Name : Assign_Cookies.py
 #          Desc :
 class Solution(object):
@@ -21,8 +21,6 @@ class Solution(object):
 			if s[i] > g[j]:
 				j += 1
 				ret += 1
-			else:
-				break
 		
 		return ret
 
