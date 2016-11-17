@@ -3,9 +3,10 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-17 09:03:13 PM
-# Last modified : 2016-11-17 09:59:15 PM
+# Last modified : 2016-11-17 10:06:38 PM
 #     File Name : Surrounded_Regions.py
 #          Desc :
+
 import Queue
 class Solution(object):
 	def solve(self, board):
@@ -15,9 +16,11 @@ class Solution(object):
 		m = len(board[0])
 
 		visited = [[] for i in range(n)]
+		ret = [[] for i in range(n)]
 		for i in range(n):
 			for j in range(m):
 				visited[i].append(0)
+				ret[i].append(board[i][j])
 
 		stack = []
 		q = Queue.Queue()
@@ -45,9 +48,14 @@ class Solution(object):
 										flag = False
 					if flag == True:
 						for y, x in stack:
+							ret[y][x] = 'O'
+							"""
 							tmp = list(board[y])
 							tmp[x] = 'X'
 							board[y] = ''.join(tmp)
+							"""
+		for i in range(n):
+			board[i] = ''.join(ret[i])
 
 		return board
 
