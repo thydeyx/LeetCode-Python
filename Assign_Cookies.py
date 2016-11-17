@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-17 01:48:52 PM
-# Last modified : 2016-11-17 02:22:37 PM
+# Last modified : 2016-11-17 02:30:51 PM
 #     File Name : Assign_Cookies.py
 #          Desc :
 class Solution(object):
@@ -14,18 +14,19 @@ class Solution(object):
 		l = len(g)
 		j = 0
 		ret = 0
-		for i in range(n):
-			if j >= l:
+		for i in range(l):
+			if j >= n:
 				break
 
-			if s[i] > g[j]:
+			if s[j] >= g[i]:
 				j += 1
 				ret += 1
 		
 		return ret
 
+
 if __name__ == "__main__":
 	s = Solution()
-	g = [1, 2]
-	s1 = [1, 2, 3]
+	g = [1, 2, 3]
+	s1 = [1, 1]
 	print s.findContentChildren(g, s1)
