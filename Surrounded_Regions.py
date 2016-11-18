@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-17 09:03:13 PM
-# Last modified : 2016-11-17 10:06:38 PM
+# Last modified : 2016-11-17 10:21:42 PM
 #     File Name : Surrounded_Regions.py
 #          Desc :
 
@@ -12,7 +12,7 @@ class Solution(object):
 	def solve(self, board):
 		n = len(board)
 		if n == 0:
-			return board
+			return
 		m = len(board[0])
 
 		visited = [[] for i in range(n)]
@@ -48,7 +48,7 @@ class Solution(object):
 										flag = False
 					if flag == True:
 						for y, x in stack:
-							ret[y][x] = 'O'
+							ret[y][x] = 'X'
 							"""
 							tmp = list(board[y])
 							tmp[x] = 'X'
@@ -57,7 +57,7 @@ class Solution(object):
 		for i in range(n):
 			board[i] = ''.join(ret[i])
 
-		return board
+		return
 
 
 if __name__ == "__main__":
