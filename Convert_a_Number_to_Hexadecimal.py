@@ -3,11 +3,13 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-21 04:35:06 PM
-# Last modified : 2016-11-21 04:49:18 PM
+# Last modified : 2016-11-21 04:51:12 PM
 #     File Name : Convert_a_Number_to_Hexadecimal.py
 #          Desc :
 class Solution(object):
 	def toHex(self, num):
+		if num == 0:
+			return "0"
 		hexList = []
 		tmp = 0
 		hexDict = {10:'a', 11:'b', 12:'c', 13:'d', 14:'e', 15:'f'}
