@@ -1,51 +1,86 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# ------------------------------------
+# default jvm args if you do not config in /jetty/boot.ini
+# ------------------------------------
+JVM_ARGS="-server -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -Djava.io.tmpdir=/tmp -Djava.net.preferIPv6Addresses=false"
+JVM_GC="-XX:+DisableExplicitGC -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -XX:+UseConcMarkSweepGC -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps"
+JVM_GC=$JVM_GC" -XX:CMSFullGCsBeforeCompaction=0 -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80"
+JVM_HEAP="-XX:SurvivorRatio=8 -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError -XX:ReservedCodeCacheSize=128m -XX:InitialCodeCacheSize=128m"
+JVM_SIZE="-Xmx4g -Xms4g"
  
-#在远程机器上执行部署的jar包
+# ------------------------------------
+# do not edit
+# ------------------------------------
  
-set -e
  
-WORKDIR=/opt/meituan/apps/waimai_service_product_server/work
-JARNAME=waimai_service_product_server-1.0.0-SNAPSHOT.jar
-LOGFILE=waimai_service_product_server.boot.log.`date "+%Y%m%d"`
-source $WORKDIR/deploy.conf
- 
-echo "#开始部署#"
-HOST_NAME=`hostname`
-echo $HOST_NAME
-HOST_IP=`hostname -i | awk -F ' ' '{if(NF==1) print $1;else print $2 end}'`
-#/usr/local/java/bin/java -jar -Djava.ext.dirs=$WORKDIR/lib $WORKDIR/$JARNAME >> $WORKDIR/$LOGFILE 2>&1
-cd $WORKDIR
-if [ -f $JARNAME ]; then
-    if [ -d classes ]; then
-        rm -rf classes
+function init() {
+    if [ -z "$LOG_PATH" ]; then
+        LOG_PATH="/opt/logs/mobile/$MODULE"
     fi
-    mkdir classes
-    cd classes
-    /usr/local/java/bin/jar -xvf  $WORKDIR/$JARNAME
-    if [ $ENVIRONMENT == "production" ]; then
-        cd conf
-        cat $WORKDIR/deploy.conf > config.properties
-        if [[ $HOST_NAME == xianfu-* ]]; then
-            cat $WORKDIR/database.properties.lf > database.properties
-        elif [[ $HOST_NAME == yf-* ]]; then
-            cat $WORKDIR/database.properties.yf > database.properties
-        else
-            cat $WORKDIR/database.properties.dx > database.properties
-        fi
+ 
+    if [ -z "$WORK_PATH" ]; then
+        WORK_PATH="/opt/meituan/mobile/$MODULE"
     fi
-fi
-VM_PARAM=''
-if [ $ENVIRONMENT == "production" ]
-then
-    VM_PARAM='-server -Xmx6g -Xms6g -XX:SurvivorRatio=8 -XX:NewRatio=2 -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+DisableExplicitGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintCommandLineFlags -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelCMSThreads=4 -XX:+CMSClassUnloadingEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=1 -XX:CMSInitiatingOccupancyFraction=50'
-else
-    VM_PARAM=''
-    if [ ! -d $WORKDIR/conf/ ]; then
-        mkdir $WORKDIR/conf/
+    WEB_ROOT=$WORK_PATH/webroot
+    unzip *.war -d webroot
+    # 用于nginx健康检查, 有些业务的nginx健康检查的url是 /status, 故需要做touch操作
+    touch $WEB_ROOT/status
+    # 创建log对应的目录
+    mkdir -p $LOG_PATH
+  
+    # 定时清理日志，如果本身业务逻辑可以处理日志的定期清理，以下逻辑可以省略。
+    cleanpath="$WORK_PATH/clean.sh"
+    echo "#!/bin/bash" > $cleanpath
+    echo "find $LOG_PATH -mtime +1 -exec /bin/gzip {} \;" >> $cleanpath
+    echo "find $LOG_PATH -mtime +3 -exec rm -fr {} \;" >> $cleanpath
+    chmod +x $cleanpath
+    (crontab -l|grep -v $cleanpath ; echo "58 05 * * * /bin/bash $cleanpath > /dev/null 2>&1" ) | crontab
+}
+ 
+function run() {
+    #根据java版本,决定java命令的位置
+    JAVA_CMD=$JAVA_VERSION
+    if [ -z "$JAVA_VERSION" ]; then
+        JAVA_CMD="java" #系统默认的java命令
+    else
+        JAVA_CMD="/usr/local/$JAVA_VERSION/bin/java"
     fi
-    VM_PARAM='-XX:PermSize=82m -XX:MaxPermSize=256m'
-    cp -f $WORKDIR/classes/conf/log4j.xml $WORKDIR/conf/
-fi
-/usr/local/java/bin/java $VM_PARAM -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/sankuai/logs/waimai_service_product_server.heaperr.log.`date "+%Y%m%d%H%M%S"` -Denvironment=$ENVIRONMENT -Xloggc:/var/sankuai/logs/waimai_service_product_server.gc.log.`date "+%Y%m%d%H%M%S"` -Dapp.key=com.sankuai.waimai.product -Dapp.host=$HOST_NAME -Dapp.ip=$HOST_IP -Dapp.port=8522 -Dfile.encoding=utf8 -Dworkdir=$WORKDIR -cp $WORKDIR/classes:`find $WORKDIR/lib -name "*.jar" -printf "%p:"` com.sankuai.meituan.waimai.product.boot.Boot >> /var/sankuai/logs/$LOGFILE 2>&1
-#disown
-echo "#结束部署#"
+ 
+    EXEC="exec"
+    CONTEXT=/
+    cd $WEB_ROOT
+    # 解决多个包同时引用asm库造成包冲突引起服务启动不正常问题，用户可根据自己情况，决定下一句是否需要
+    rm -rf WEB-INF/lib/asm-*
+    if [ -e "WEB-INF/classes/release" ]; then
+        cp -rf WEB-INF/classes/release/* WEB-INF/classes
+    fi
+    if [ -e "WEB-INF/classes/jetty/boot.ini" ]; then
+        source WEB-INF/classes/jetty/boot.ini
+    fi
+ 
+ 
+    CLASSPATH=WEB-INF/classes
+    for i in WEB-INF/lib/*
+    do
+        CLASSPATH=$CLASSPATH:$i
+    done
+    export CLASSPATH
+    JAVA_ARGS="-Djetty.webroot=$WEB_ROOT"
+    EXEC_JAVA="$EXEC $JAVA_CMD $JVM_ARGS $JVM_SIZE $JVM_HEAP $JVM_JIT $JVM_GC"
+    EXEC_JAVA=$EXEC_JAVA" -Xloggc:$LOG_PATH/$MODULE.gc.log -XX:ErrorFile=$LOG_PATH/$MODULE.vmerr.log -XX:HeapDumpPath=$LOG_PATH/$MODULE.heaperr.log"
+    EXEC_JAVA=$EXEC_JAVA" -Djetty.appkey=$MODULE -Djetty.context=$CONTEXT -Djetty.logs=$LOG_PATH"
+    EXEC_JAVA=$EXEC_JAVA" $JAVA_ARGS"
+    if [ "$UID" = "0" ]; then
+        ulimit -n 1024000
+        umask 000
+    else
+        echo $EXEC_JAVA
+    fi
+    $EXEC_JAVA com.sankuai.mms.boot.Bootstrap 2>&1
+}
+ 
+# ------------------------------------
+# actually work
+# ------------------------------------
+init
+run
