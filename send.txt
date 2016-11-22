@@ -1,0 +1,51 @@
+#!/bin/bash
+ 
+#在远程机器上执行部署的jar包
+ 
+set -e
+ 
+WORKDIR=/opt/meituan/apps/waimai_service_product_server/work
+JARNAME=waimai_service_product_server-1.0.0-SNAPSHOT.jar
+LOGFILE=waimai_service_product_server.boot.log.`date "+%Y%m%d"`
+source $WORKDIR/deploy.conf
+ 
+echo "#开始部署#"
+HOST_NAME=`hostname`
+echo $HOST_NAME
+HOST_IP=`hostname -i | awk -F ' ' '{if(NF==1) print $1;else print $2 end}'`
+#/usr/local/java/bin/java -jar -Djava.ext.dirs=$WORKDIR/lib $WORKDIR/$JARNAME >> $WORKDIR/$LOGFILE 2>&1
+cd $WORKDIR
+if [ -f $JARNAME ]; then
+    if [ -d classes ]; then
+        rm -rf classes
+    fi
+    mkdir classes
+    cd classes
+    /usr/local/java/bin/jar -xvf  $WORKDIR/$JARNAME
+    if [ $ENVIRONMENT == "production" ]; then
+        cd conf
+        cat $WORKDIR/deploy.conf > config.properties
+        if [[ $HOST_NAME == xianfu-* ]]; then
+            cat $WORKDIR/database.properties.lf > database.properties
+        elif [[ $HOST_NAME == yf-* ]]; then
+            cat $WORKDIR/database.properties.yf > database.properties
+        else
+            cat $WORKDIR/database.properties.dx > database.properties
+        fi
+    fi
+fi
+VM_PARAM=''
+if [ $ENVIRONMENT == "production" ]
+then
+    VM_PARAM='-server -Xmx6g -Xms6g -XX:SurvivorRatio=8 -XX:NewRatio=2 -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+DisableExplicitGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintCommandLineFlags -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelCMSThreads=4 -XX:+CMSClassUnloadingEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=1 -XX:CMSInitiatingOccupancyFraction=50'
+else
+    VM_PARAM=''
+    if [ ! -d $WORKDIR/conf/ ]; then
+        mkdir $WORKDIR/conf/
+    fi
+    VM_PARAM='-XX:PermSize=82m -XX:MaxPermSize=256m'
+    cp -f $WORKDIR/classes/conf/log4j.xml $WORKDIR/conf/
+fi
+/usr/local/java/bin/java $VM_PARAM -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/sankuai/logs/waimai_service_product_server.heaperr.log.`date "+%Y%m%d%H%M%S"` -Denvironment=$ENVIRONMENT -Xloggc:/var/sankuai/logs/waimai_service_product_server.gc.log.`date "+%Y%m%d%H%M%S"` -Dapp.key=com.sankuai.waimai.product -Dapp.host=$HOST_NAME -Dapp.ip=$HOST_IP -Dapp.port=8522 -Dfile.encoding=utf8 -Dworkdir=$WORKDIR -cp $WORKDIR/classes:`find $WORKDIR/lib -name "*.jar" -printf "%p:"` com.sankuai.meituan.waimai.product.boot.Boot >> /var/sankuai/logs/$LOGFILE 2>&1
+#disown
+echo "#结束部署#"
