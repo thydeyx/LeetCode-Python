@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-23 09:18:03 PM
-# Last modified : 2016-11-23 11:56:45 PM
+# Last modified : 2016-11-23 11:58:08 PM
 #     File Name : Arithmetic_Slices.py
 #          Desc :
 """
@@ -18,6 +18,8 @@ class Solution(object):
 	def numberOfArithmeticSlices(self, A):
 		addend = 0
 		n = len(A)
+		if n == 0:
+			return 0
 		ret = 0
 		cha = A[1] - A[0]
 		for i in range(2, n):
