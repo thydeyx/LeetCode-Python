@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-23 04:33:03 PM
-# Last modified : 2016-11-23 04:52:30 PM
+# Last modified : 2016-11-23 04:54:48 PM
 #     File Name : Queue_Reconstruction_by_Height.py
 #          Desc :
 
@@ -25,6 +25,8 @@ class Solution(object):
 	def reconstructQueue(self, people):
 		n = len(people)
 		ret = []
+		if n == 0:
+			return ret
 		people_height = sorted(people, cmp = self.compare)
 		ret.append(people_height[0])
 		for i in range(1, n):
