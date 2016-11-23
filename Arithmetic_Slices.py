@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-23 09:18:03 PM
-# Last modified : 2016-11-23 11:59:08 PM
+# Last modified : 2016-11-24 12:00:13 AM
 #     File Name : Arithmetic_Slices.py
 #          Desc :
 """
@@ -27,6 +27,7 @@ class Solution(object):
 				addend += 1
 				ret += addend
 			else:
+				cha = A[i] - A[i - 1]
 				addend = 0
 
 		return ret
