@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-11-24 11:39:42 PM
-# Last modified : 2016-11-24 11:54:56 PM
+# Last modified : 2016-11-24 11:59:09 PM
 #     File Name : Is_Subsequence.py
 #          Desc :
 """
@@ -39,6 +39,9 @@ class Solution(object):
 	def isSubsequence(self, s, t):
 		sn = len(s)
 		tn = len(t)
+		if sn == 0:
+			return True
+
 		j = 0
 		for i in range(tn):
 			if t[i] == s[j]:
