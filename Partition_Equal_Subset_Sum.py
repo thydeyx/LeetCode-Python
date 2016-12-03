@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-03 04:56:59 PM
-# Last modified : 2016-12-03 05:35:05 PM
+# Last modified : 2016-12-03 05:38:38 PM
 #     File Name : Partition_Equal_Subset_Sum.py
 #          Desc :
 class Solution(object):
@@ -18,6 +18,7 @@ class Solution(object):
 				to_dict[key + i] = 0
 				if key + i == (s >> 1):
 					return True
+		return False
 
 
 if __name__ == "__main__":
