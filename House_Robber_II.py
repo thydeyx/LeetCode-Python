@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-07 10:58:56 PM
-# Last modified : 2016-12-08 11:38:21 PM
+# Last modified : 2016-12-09 10:21:27 PM
 #     File Name : House_Robber_II.py
 #          Desc :
 class Solution(object):
@@ -11,6 +11,8 @@ class Solution(object):
 		n = len(nums)
 		if n == 0:
 			return 0
+		if n == 1:
+			return nums[1]
 		dp = [[0,0] for i in range(n)]
 		#dp[0][1] = nums[0]
 		for i in range(1, n):
