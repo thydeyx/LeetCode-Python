@@ -3,12 +3,14 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-07 10:58:56 PM
-# Last modified : 2016-12-08 11:32:35 PM
+# Last modified : 2016-12-08 11:38:21 PM
 #     File Name : House_Robber_II.py
 #          Desc :
 class Solution(object):
 	def rob(self, nums):
 		n = len(nums)
+		if n == 0:
+			return 0
 		dp = [[0,0] for i in range(n)]
 		#dp[0][1] = nums[0]
 		for i in range(1, n):
