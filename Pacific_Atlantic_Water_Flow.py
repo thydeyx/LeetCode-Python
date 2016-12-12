@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-12 03:59:52 PM
-# Last modified : 2016-12-12 04:50:09 PM
+# Last modified : 2016-12-12 04:53:08 PM
 #     File Name : Pacific_Atlantic_Water_Flow.py
 #          Desc :
 import Queue
@@ -46,22 +46,22 @@ class Solution(object):
 			Atlantic.append([False for j in range(m)])
 
 		for i in range(n):
-			pQueue.put(i, 0)
-			q.Queue.put(i, m - 1)
+			pQueue.put((i, 0))
+			aQueue.put((i, m - 1))
 			Pacific[i][0] = True
 			Atlantic[i][m - 1] = True
 			#self.findPath(i, 0, Pacific, matrix, n, m)
 			#self.findPath(i, m - 1, Atlantic, matrix, n, m)
 
 		for i in range(m):
-			pQueue.put(0, i)
-			q.Queue.put(n - 1, i)
+			pQueue.put((0, i))
+			aQueue.put((n - 1, i))
 			Pacific[0][i] = True
 			Atlantic[n - 1][i] = True
 			#self.findPath(0, i, Pacific, matrix, n, m)
 			#self.findPath(n - 1, i, Atlantic, matrix, n, m)
 		self.findPath(pQueue, Pacific, matrix, n, m)
-		self.findPath(aQueue, Pacific, matrix, n, m)
+		self.findPath(aQueue, Atlantic, matrix, n, m)
 
 		for i in range(n):
 			for j in range(m):
