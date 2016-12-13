@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-13 02:47:07 PM
-# Last modified : 2016-12-13 05:16:40 PM
+# Last modified : 2016-12-13 05:18:17 PM
 #     File Name : Insertion_Sort_List.py
 #          Desc :
 
@@ -17,6 +17,8 @@ class ListNode(object):
 
 class Solution(object):
 	def insertionSortList(self, head):
+		if head == None:
+			return head
 		ret = ListNode(head.val)
 		while head.next != None:
 			head = head.next
