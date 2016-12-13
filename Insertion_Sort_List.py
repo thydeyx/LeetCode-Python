@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-13 02:47:07 PM
-# Last modified : 2016-12-13 05:18:17 PM
+# Last modified : 2016-12-13 05:23:28 PM
 #     File Name : Insertion_Sort_List.py
 #          Desc :
 
@@ -24,6 +24,7 @@ class Solution(object):
 			head = head.next
 			tmp = ret
 			pre = ret
+			inode = ListNode(head.val)
 			i = 0
 			while tmp != None and head.val > tmp.val:
 				if i == 0:
@@ -33,17 +34,14 @@ class Solution(object):
 				tmp = tmp.next
 
 			if tmp == ret:
-				inode = ListNode(head.val)
 				inode.next = tmp
 				ret = inode
 				continue
 			
 			if tmp == None:
-				inode = ListNode(head.val)
 				pre.next = inode
 				continue
 
-			inode = ListNode(head.val)
 			pre.next = inode
 			inode.next = tmp
 		return ret
