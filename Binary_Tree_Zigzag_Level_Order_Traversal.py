@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-13 05:42:55 PM
-# Last modified : 2016-12-14 06:40:58 PM
+# Last modified : 2016-12-14 06:43:58 PM
 #     File Name : Binary_Tree_Zigzag_Level_Order_Traversal.py
 #          Desc :
 
@@ -39,7 +39,8 @@ class Solution(object):
 			if k % 2 == 0:
 				ret.append(tmp[:])
 			else:
-				ret.append(tmp.reverse()[:])
+				tmp.reverse()
+				ret.append(tmp[:])
 			k += 1
 		return ret
 
