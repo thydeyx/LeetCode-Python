@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2016-12-13 05:42:55 PM
-# Last modified : 2016-12-14 06:40:09 PM
+# Last modified : 2016-12-14 06:40:58 PM
 #     File Name : Binary_Tree_Zigzag_Level_Order_Traversal.py
 #          Desc :
 
@@ -26,7 +26,6 @@ class Solution(object):
 		k = 0
 		while q.empty() != True:
 			n = q.qsize()
-			print n
 			i = 0
 			tmp = []
 			while i < n:
@@ -48,4 +47,4 @@ class Solution(object):
 if __name__ == "__main__":
 	s = Solution()
 	root = TreeNode(1)
-	s.zigzagLevelOrder(root)
+	print s.zigzagLevelOrder(root)
