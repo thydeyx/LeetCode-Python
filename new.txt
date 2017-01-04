@@ -1,52 +1,84 @@
 import Queue
+
 class Solution(object):
-    def findMinHeightTrees(self, n, edges):
+    def canMeasureWater(self, x, y, z):
         """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: List[int]
+        :type x: int
+        :type y: int
+        :type z: int
+        :rtype: bool
         """
         q = Queue.Queue()
-        tmq = Queue.Queue()
-        degree = [0 for i in range(n)]
-        flag = [0 for i in range(n)]
-        graph = [[] for i in range(n)]
-        m = 0
-        
-        if n == 2:
-            return edges[0]
+        q.put((0, 0))
+        hash_dict = {}
+        hash_dict["0\t0"] = 1
+        while q.empty() == False:
+            x2, y2 = q.get()
             
-        for edge in edges:
-            degree[edge[0]] += 1
-            degree[edge[1]] += 1
-            graph[edge[0]].append(edge[1])
-            graph[edge[1]].append(edge[0])
-        
-        for i in range(n):
-            if degree[i] == 1:
-                q.put(i)
-                flag[i] = 1
-                degree[i] -= 1
-        while n - m > 2:
-            while q.empty() == False:
-                node = q.get()
+            x1, y1 = x2, y2
+            print x1, y1,"%%%%%%"
+            if x1 != x:
+                x1 = x
+                if hash_dict.has_key(str(x1) + "\t" + str(y1)) == False:
+                    hash_dict[str(x1) + "\t" + str(y1)] = 1
+                    q.put((x1,y1))
+                    print x1, y1
+                if x1 == z:
+                    return True
             
-                for adj in graph[node]:
-                    degree[adj] -= 1
-                    if degree[adj] == 1:
-                        tmq.put(adj)
-                m += 1
-            print m
-            q = copy.copy(tmq)
+            x1, y1 = x2, y2
+            if y1 != y:
+                y1 = y
+                if hash_dict.has_key(str(x1) + "\t" + str(y1)) == False:
+                    hash_dict[str(x1) + "\t" + str(y1)] = 1
+                    q.put((x1,y1))
+                    print x1, y1
+                if y1 == z:
+                    return True
+
+            x1, y1 = x2, y2
             
-            if n - m <= 2:
-                break
-            while tmq.empty() == False:
-                flag[tmq.get()] = 1
-                print 111
-            
-        ret = []
-        for i in range(n):
-            if flag[i] == 0:
-                ret.append(i)
-        return ret
+            if x1 != x:
+                y1 = y1 - (x - x1)
+                if y1 >= 0:
+                    x1 = x
+                    if hash_dict.has_key(str(x1) + "\t" + str(y1)) == False:
+                        hash_dict[str(x1) + "\t" + str(y1)] = 1
+                        q.put((x1,y1))
+                        print x1, y1
+                    if y1 == z or x1 == z:
+                        return True
+                else:
+                    x1 = x1 + y1
+                    y1 = 0
+                    
+                    if hash_dict.has_key(str(x1) + "\t" + str(y1)) == False:
+                        hash_dict[str(x1) + "\t" + str(y1)] = 1
+                        q.put((x1,y1))
+                        print x1, y1
+                    if y1 == z or x1 == z:
+                        return True
+
+            x1, y1 = x2, y2
+            if y1 != y:
+                x1 = x1 - (y - y1)
+                if x1 >= 0:
+                    y1 = y
+                    if hash_dict.has_key(str(x1) + "\t" + str(y1)) == False:
+                        hash_dict[str(x1) + "\t" + str(y1)] = 1
+                        q.put((x1,y1))
+                        print x1, y1
+                    if y1 == z or x1 == z:
+                        return True
+                else:
+                    y1 = y1 + x1
+                    x1 = 0
+                    
+                    if hash_dict.has_key(str(x1) + "\t" + str(y1)) == False:
+                        hash_dict[str(x1) + "\t" + str(y1)] = 1
+                        q.put((x1,y1))
+                        print x1, y1
+                    if y1 == z or x1 == z:
+                        return True
+                    
+        return False
