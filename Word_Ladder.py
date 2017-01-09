@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2017-01-09 10:14:54 AM
-# Last modified : 2017-01-09 10:28:55 AM
+# Last modified : 2017-01-09 10:33:28 AM
 #     File Name : Word_Ladder.py
 #          Desc :
 
@@ -21,8 +21,6 @@ class Solution(object):
             return 0
         n = len(wordList)
         graph = collections.defaultdict(list)
-        wordList.remove(beginWord)
-        wordList.remove(endWord)
         dif = 0
         for word1 in wordList:
             for word2 in wordList:
@@ -43,21 +41,21 @@ class Solution(object):
                     dif += 1
                     if dif > 1:
                         break
-                if dif == 1:
-                    graph[beginWord].append(word)
+                if dif == 1 or dif == 0:
+                    graph['begin$'].append(word)
                 dif = 0
                 if endWord[k] != word[k]:
                     dif += 1
                     if dif > 1:
                         break
-                if dif == 1:
-                    graph[word].append(endWord)
+                if dif == 1 or dif == 0:
+                    graph['end$'].append(endWord)
         q = Queue.Queue()
-        q.put((beginWord,0))
+        q.put(('begin$',0))
         visit = {}
         while q.empty() == False:
             now, k = q.get()
-            if now == endWord:
+            if now == 'end$':
                 return k
             for node in graph[now]:
                 if visit.has_key(node) == False:
@@ -67,7 +65,7 @@ class Solution(object):
 
 if __name__ == "__main__":
 	s = Solution()
-	begin = 'a'
-	end = 'c'
-	wordList = set(['a','b','c'])
+	begin = 'hot'
+	end = 'dog'
+	wordList = set(["hot","dog","dot"])
 	print s.ladderLength(begin,end,wordList)
