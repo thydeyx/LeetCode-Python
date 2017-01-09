@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2017-01-09 10:14:54 AM
-# Last modified : 2017-01-09 10:33:28 AM
+# Last modified : 2017-01-09 10:50:42 AM
 #     File Name : Word_Ladder.py
 #          Desc :
 
@@ -31,25 +31,27 @@ class Solution(object):
                         dif += 1
                         if dif > 1:
                             break
-                    if dif == 1:
-                        graph[word1].append(word2)
+                if dif == 1:
+                    graph[word1].append(word2)
         for word in wordList:
             m = len(word)
+            dif = 0
             for k in range(m):
-                dif = 0
                 if beginWord[k] != word[k]:
                     dif += 1
                     if dif > 1:
                         break
-                if dif == 1 or dif == 0:
-                    graph['begin$'].append(word)
-                dif = 0
+            if dif == 1 or dif == 0:
+                graph['begin$'].append(word)
+
+            dif = 0
+            for k in range(m):
                 if endWord[k] != word[k]:
                     dif += 1
                     if dif > 1:
                         break
-                if dif == 1 or dif == 0:
-                    graph['end$'].append(endWord)
+            if dif == 0:
+                graph[word].append('end$')
         q = Queue.Queue()
         q.put(('begin$',0))
         visit = {}
