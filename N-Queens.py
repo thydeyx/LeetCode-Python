@@ -3,9 +3,13 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2017-01-17 04:35:29 PM
-# Last modified : 2017-01-17 04:55:18 PM
+# Last modified : 2017-01-17 04:57:46 PM
 #     File Name : N-Queens.py
 #          Desc :
+"""
+如果state[row] = col表示第row行的皇后放在第col列
+合法判断 row之前的行中没有放在col列的，对角判断 abs(row-row1) == abs(col - state[i])表示有对角冲突
+"""
 import copy
 class Solution(object):
 	def isVaild(self, state, row, col):
