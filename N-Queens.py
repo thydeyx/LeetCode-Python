@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2017-01-17 04:35:29 PM
-# Last modified : 2017-01-17 04:57:46 PM
+# Last modified : 2017-01-17 04:59:28 PM
 #     File Name : N-Queens.py
 #          Desc :
 """
@@ -27,10 +27,10 @@ class Solution(object):
 			self.ret.append(ret)
 			return
 
-		for col in range(n):
+		for col in range(self.n):
 			if self.isVaild(state,row,col):
 				state[row] = col
-				ans[row][col] = 'G'
+				ans[row][col] = 'Q'
 				self.helper(state, row + 1, ans)
 				ans[row][col] = '.'
 				state[row] = -1
