@@ -3,7 +3,7 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2017-01-27 10:43:36 AM
-# Last modified : 2017-01-27 11:22:55 AM
+# Last modified : 2017-01-27 01:28:06 PM
 #     File Name : Palindrome_Pairs.py
 #          Desc :
 
@@ -33,7 +33,7 @@ class Solution(object):
 		for i in range(n):
 			dict_words[words[i]] = i
 		for i in range(n):
-			for j in range(len(words[i])):
+			for j in range(len(words[i]) + 1):
 				str1 = words[i][:j]
 				str2 = words[i][j:]
 				if self.isPalindrome(str1) == True:
@@ -42,7 +42,7 @@ class Solution(object):
 						ret.append([dict_words[str3],i])
 				if self.isPalindrome(str2) == True:
 					str3 = str1[::-1]
-					if dict_words.has_key(str3) == True and dict_words[str3] != i:
+					if dict_words.has_key(str3) == True and dict_words[str3] != i and len(str2) != 0:
 						ret.append([i, dict_words[str3]])
 		return ret
 	
@@ -50,5 +50,5 @@ class Solution(object):
 
 if __name__ == "__main__":
 	s = Solution()
-	words = ["bat", "tab", "cat"]
+	words = ["a",""]
 	print s.palindromePairs(words)
