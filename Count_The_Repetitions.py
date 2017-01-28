@@ -3,12 +3,16 @@
 #        Author : TangHanYi
 #        E-mail : thydeyx@163.com
 #   Create Date : 2017-01-28 11:54:33 AM
-# Last modified : 2017-01-28 12:09:29 PM
+# Last modified : 2017-01-28 12:16:53 PM
 #     File Name : Count_The_Repetitions.py
 #          Desc :
 
 class Solution(object):
 	def getMaxRepetitions(self, s1, n1, s2, n2):
+		if n1 == 0 or n2 == 0:
+			return 0
+		if s1 == '' or s2 == '':
+			return 0
 		l1 = len(s1)
 		l2 = len(s2)
 		j = 0
